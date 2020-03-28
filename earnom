@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# EarNom 1.0 By Ellis_Cake
+# Using PlayX (which uses chromium and mpv) and yad.
+# (Also Eckie is a grumpy man, but he uses Arch BTW!)
+
+echo "Stopped" > /tmp/earnom
+
+for (( ; ; ))
+
+do
+
+songie=$(yad --entry --title="EarNom Explorer 1.0 (by Ellis_Cake)" --text="Now playing your search for: $nomsong" --button="Play" --button="Stop")
+
+exval=$?
+
+case $exval in
+
+   1) 
+	   echo "Stopped" > /tmp/earnom;
+	   killall playx;
+	   killall mpv;
+	   nomsong=$(</tmp/earnom);
+	   ;;
+
+   0) 
+	   echo "Stopped" > /tmp/earnom;
+	   killall playx;
+	   killall mpv;
+	   playx -d -n $songie > /tmp/earnom &
+	   # WIP ---- sed 's/\[utility\]:\ //g;s/\[player\]:\ Exitting\ peacefully//g' /tmp/earnom > /tmp/earnom2;
+	   # nomsong=$(< "/tmp/earnom2"); -----
+	   nomsong=$songie
+	   ;;
+
+   252) 
+	   echo "Stopped" > /tmp/earnom;
+	   killall mpv;
+	   killall playx;
+	   nomsong=$(</tmp/earnom);
+	   break;;
+
+esac
+
+done
